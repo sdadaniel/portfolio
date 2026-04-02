@@ -1,13 +1,16 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --color-primary: #f59e0b;
-  --color-primary-light: #fbbf24;
-  --color-surface: #111111;
-  --color-surface-light: #1a1a1a;
-  --color-border: #2a2a2a;
+  --color-primary: #2563eb;
+  --color-primary-light: #3b82f6;
+  --color-primary-dark: #1d4ed8;
+  --color-surface: #f8fafc;
+  --color-surface-light: #f1f5f9;
+  --color-border: #e2e8f0;
+  --color-border-dark: #cbd5e1;
 }
 
 html {
@@ -20,20 +23,49 @@ body {
 
 ::selection {
   background: var(--color-primary);
-  color: #000;
+  color: #fff;
 }
 
-/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0a0a0a;
+  background: #f8fafc;
 }
 ::-webkit-scrollbar-thumb {
-  background: #333;
+  background: #cbd5e1;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #94a3b8;
 }
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chat-slide-up {
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Company markdown: equal-width table image grid */
+/* article.prose table {
+  table-layout: fixed !important;
+  width: 100% !important;
+}
+article.prose td {
+  vertical-align: top !important;
+  padding: 4px !important;
+}
+article.prose td img {
+  width: 100% !important;
+  height: auto !important;
+  margin: 0 !important;
+} */
