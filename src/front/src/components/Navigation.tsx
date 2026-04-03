@@ -1,18 +1,15 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 
 const navItems = [
-  { label: "About", href: "/" },
-  { label: "Project", href: "/project" },
-  { label: "AI", href: "/ai" },
-  { label: "FAQ", href: "/faq" },
+  { label: "About", href: "#about" },
+  { label: "Project", href: "#project" },
+  { label: "AI", href: "#ai" },
+  { label: "FAQ", href: "#faq" },
 ];
 
 export default function Navigation() {
-  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -31,23 +28,19 @@ export default function Navigation() {
       }`}
     >
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="text-lg font-bold text-primary">
-          Portfolio
-        </Link>
+        <a href="#" className="text-lg font-bold text-primary">
+          곽성실
+        </a>
 
         <ul className="hidden md:flex gap-8">
           {navItems.map((item) => (
             <li key={item.href}>
-              <Link
+              <a
                 href={item.href}
-                className={`text-sm font-medium transition-colors ${
-                  pathname === item.href
-                    ? "text-primary"
-                    : "text-gray-500 hover:text-primary"
-                }`}
+                className="text-sm text-gray-500 hover:text-primary transition-colors font-medium"
               >
                 {item.label}
-              </Link>
+              </a>
             </li>
           ))}
         </ul>
@@ -77,17 +70,13 @@ export default function Navigation() {
           <ul className="flex flex-col px-6 pb-4 gap-3">
             {navItems.map((item) => (
               <li key={item.href}>
-                <Link
+                <a
                   href={item.href}
-                  className={`text-sm font-medium transition-colors ${
-                    pathname === item.href
-                      ? "text-primary"
-                      : "text-gray-500 hover:text-primary"
-                  }`}
+                  className="text-sm text-gray-500 hover:text-primary transition-colors font-medium"
                   onClick={() => setMobileOpen(false)}
                 >
                   {item.label}
-                </Link>
+                </a>
               </li>
             ))}
           </ul>

@@ -1,18 +1,12 @@
-"use client";
-
-import dynamic from "next/dynamic";
-
-const HeroScene = dynamic(() => import("./HeroScene"), { ssr: false });
-
 export default function Hero() {
   return (
     <section
       id="about"
       className="relative min-h-screen flex items-center justify-center overflow-hidden border-b border-border"
     >
-      <HeroScene />
-      <div className="absolute top-0 right-0 w-[250px] h-[250px] md:w-[500px] md:h-[500px] bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4" />
-      <div className="absolute bottom-0 left-0 w-[200px] h-[200px] md:w-[400px] md:h-[400px] bg-primary/3 rounded-full blur-3xl translate-y-1/2 -translate-x-1/4" />
+      {/* Background decoration */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4" />
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-primary/3 rounded-full blur-3xl translate-y-1/2 -translate-x-1/4" />
 
       <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
         <div className="inline-block mb-6 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/5 text-primary text-sm font-medium">
@@ -48,6 +42,7 @@ export default function Hero() {
           <ContactChip label="010-6495-8263" />
         </div>
 
+        {/* Skills */}
         <div className="max-w-3xl mx-auto">
           <div className="flex flex-wrap justify-center gap-2">
             {[
@@ -75,6 +70,7 @@ export default function Hero() {
         </div>
       </div>
 
+      {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
         <svg
           width="24"
@@ -93,9 +89,9 @@ export default function Hero() {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="px-3 py-2 md:px-5 md:py-3 bg-white rounded-lg border border-border shadow-sm">
-      <div className="text-base md:text-xl font-bold text-primary">{value}</div>
-      <div className="text-[10px] md:text-xs text-gray-400">{label}</div>
+    <div className="px-5 py-3 bg-white rounded-lg border border-border shadow-sm">
+      <div className="text-xl font-bold text-primary">{value}</div>
+      <div className="text-xs text-gray-400">{label}</div>
     </div>
   );
 }
