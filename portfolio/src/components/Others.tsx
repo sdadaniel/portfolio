@@ -37,6 +37,33 @@ export default function Others() {
 
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                Awards
+              </h3>
+              <div className="p-5 bg-surface rounded-xl border border-border">
+                <h4 className="font-semibold text-sm text-gray-900">
+                  2015 대학창의 발명대회
+                </h4>
+                <span className="text-[11px] text-gray-400 font-mono">
+                  2015.11 · 특허청 / 한국발명진흥회
+                </span>
+                <div className="flex items-center justify-between mt-2">
+                  <p className="text-xs text-gray-500">
+                    <span className="text-primary font-semibold">최우수상</span> 수상
+                  </p>
+                  <a
+                    href="https://www.mt.co.kr/society/2015/11/12/2015111123397484968"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[10px] text-primary hover:underline"
+                  >
+                    기사 →
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">
                 Languages
               </h3>
               <div className="space-y-2">
@@ -63,11 +90,6 @@ export default function Others() {
                   <span className="text-primary text-xs">*</span>
                   Google Analytics 스터디 운영
                   <span className="text-[10px] text-gray-400">(2020.03)</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-primary text-xs">*</span>
-                  GA·마케팅 오픈 채팅방 운영
-                  <span className="text-[10px] text-gray-400">(약 500명)</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="text-primary text-xs">*</span>
