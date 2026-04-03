@@ -15,10 +15,21 @@
 
 html {
   scroll-behavior: smooth;
+  /* 고정 헤더(h-16) + 여유. 앵커/브라우저 스크롤 시 제목이 네비에 가리지 않도록 */
+  scroll-padding-top: 5.5rem;
 }
 
 body {
   font-family: var(--font-sans), sans-serif;
+}
+
+/* 고정 네비(h-16) 아래로 제목·앵커가 가리지 않도록 */
+article.prose [id] {
+  scroll-margin-top: 5.5rem;
+}
+
+article.prose > h1:first-of-type {
+  scroll-margin-top: 5.5rem;
 }
 
 ::selection {

@@ -1,13 +1,24 @@
 "use client";
 
+import { usePathname } from "next/navigation";
+import { useEffect, useLayoutEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
 import type { Company } from "@/data/companies";
 
+function scrollToHashId(hashId: string) {
+  if (!hashId) return false;
+  const el = document.getElementById(hashId);
+  if (!el) return false;
+  el.scrollIntoView({ behavior: "smooth", block: "start" });
+  return true;
+}
+
 const sanitizeSchema = {
   ...defaultSchema,
+  clobberPrefix: "",
   tagNames: [...(defaultSchema.tagNames ?? []), "img", "div"],
   attributes: {
     ...(defaultSchema.attributes ?? {}),
@@ -24,36 +35,46 @@ const sanitizeSchema = {
       "loading",
       "decoding",
     ],
-    div: [...(defaultSchema.attributes?.div ?? []), "class", "className"],
+    div: [...(defaultSchema.attributes?.div ?? []), "class", "className", "id"],
   },
 };
 
 export default function CompanyMarkdown({
   markdown,
-  company,
 }: {
   markdown: string;
   company: Company;
 }) {
+  const pathname = usePathname();
+
+  useLayoutEffect(() => {
+    if (!pathname?.startsWith("/project/")) return;
+    const hash = window.location.hash.replace(/^#/, "");
+    if (!hash) return;
+    const tryScroll = () => scrollToHashId(hash);
+    tryScroll();
+    const t0 = window.setTimeout(tryScroll, 0);
+    const t1 = window.setTimeout(tryScroll, 50);
+    const t2 = window.setTimeout(tryScroll, 200);
+    return () => {
+      window.clearTimeout(t0);
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+    };
+  }, [pathname, markdown]);
+
+  useEffect(() => {
+    if (!pathname?.startsWith("/project/")) return;
+    const onHashChange = () => {
+      const hash = window.location.hash.replace(/^#/, "");
+      scrollToHashId(hash);
+    };
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, [pathname]);
+
   return (
     <div className="p-4 sm:p-8 md:p-12">
-      {/* Tech Stack badges */}
-      <div className="mb-8">
-        <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
-          Tech Stack
-        </h3>
-        <div className="flex flex-wrap gap-2">
-          {company.techStack.map((t) => (
-            <span
-              key={t}
-              className="px-2.5 py-1 text-xs rounded-full bg-primary/5 text-primary/80"
-            >
-              {t}
-            </span>
-          ))}
-        </div>
-      </div>
-
       {/* Markdown content */}
       <article className="prose prose-sm max-w-none prose-headings:text-gray-900 prose-h1:text-2xl prose-h1:sm:text-3xl prose-h1:font-bold prose-h1:mb-2 prose-h2:text-lg prose-h2:font-bold prose-h2:mt-10 prose-h2:mb-3 prose-h3:text-sm prose-h3:font-semibold prose-h3:text-primary prose-h3:uppercase prose-h3:tracking-wider prose-p:text-sm prose-p:text-gray-600 prose-p:leading-relaxed prose-li:text-sm prose-li:text-gray-600 prose-strong:text-gray-800 prose-img:rounded-lg prose-img:my-4 prose-a:no-underline prose-a:text-primary prose-a:font-medium prose-a:hover:text-primary-dark">
         <ReactMarkdown
@@ -63,6 +84,9 @@ export default function CompanyMarkdown({
             [rehypeSanitize, sanitizeSchema],
           ]}
           components={{
+            div({ node, id, ...props }: { node?: unknown; id?: string; [key: string]: unknown }) {
+              return <div {...props} id={id} className={id ? "scroll-mt-24" : undefined} />;
+            },
             code({ children }) {
               const text = String(children).replace(/\n$/, "");
               return (

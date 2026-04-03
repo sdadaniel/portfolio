@@ -67,7 +67,26 @@ export default function ProjectSidebar() {
                         <Link
                           key={project.id}
                           href={`/project/${company.id}#${project.id}`}
-                          onClick={() => setMobileOpen(false)}
+                          onClick={(e) => {
+                            setMobileOpen(false);
+                            const projectPath = `/project/${company.id}`;
+                            if (pathname === projectPath) {
+                              e.preventDefault();
+                              window.history.replaceState(
+                                null,
+                                "",
+                                `${projectPath}#${project.id}`,
+                              );
+                              requestAnimationFrame(() => {
+                                document
+                                  .getElementById(project.id)
+                                  ?.scrollIntoView({
+                                    behavior: "smooth",
+                                    block: "start",
+                                  });
+                              });
+                            }
+                          }}
                           className="block w-full text-left px-2 py-1.5 rounded text-xs transition-colors leading-snug text-gray-500 hover:text-gray-700 hover:bg-surface"
                         >
                           {project.title}

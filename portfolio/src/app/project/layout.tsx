@@ -10,7 +10,7 @@ export default function ProjectLayout({
   return (
     <>
       <Navigation />
-      <div className="pt-16 max-w-5xl mx-auto flex min-h-[calc(100vh-4rem)]">
+      <div className="pt-20 max-w-5xl mx-auto flex min-h-[calc(100vh-5rem)]">
         <ProjectSidebar />
         <main className="flex-1 min-w-0">{children}</main>
       </div>
