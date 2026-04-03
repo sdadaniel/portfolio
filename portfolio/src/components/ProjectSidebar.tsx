@@ -5,6 +5,19 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { companies } from "@/data/companies";
 
+function scrollToProjectAnchor(id: string) {
+  const run = () =>
+    document.getElementById(id)?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  run();
+  requestAnimationFrame(run);
+  window.setTimeout(run, 0);
+  window.setTimeout(run, 80);
+  window.setTimeout(run, 200);
+}
+
 export default function ProjectSidebar() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -77,14 +90,7 @@ export default function ProjectSidebar() {
                                 "",
                                 `${projectPath}#${project.id}`,
                               );
-                              requestAnimationFrame(() => {
-                                document
-                                  .getElementById(project.id)
-                                  ?.scrollIntoView({
-                                    behavior: "smooth",
-                                    block: "start",
-                                  });
-                              });
+                              scrollToProjectAnchor(project.id);
                             }
                           }}
                           className="block w-full text-left px-2 py-1.5 rounded text-xs transition-colors leading-snug text-gray-500 hover:text-gray-700 hover:bg-surface"

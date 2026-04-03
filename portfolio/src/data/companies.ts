@@ -46,7 +46,8 @@ export const companies: Company[] = [
     projects: [
       {
         id: "funble-auth",
-        title: "React Native 기반 하이브리드 앱 운영 — 인증·딥링크·WebView–Native 연동",
+        title:
+          "1. React Native 기반 하이브리드 앱 운영 — 인증·딥링크·WebView–Native 연동",
         type: "overview",
         overview:
           "React Native 기반 앱 운영, 생체 인식·법인 로그인·메인 화면 등 핵심 화면·플로우 제작, 라온·코스콤 모듈 신규 모듈로 교체 및 Swift·Objective-C·Kotlin 네이티브 연동.",
@@ -59,7 +60,7 @@ export const companies: Company[] = [
       },
       {
         id: "funble-bundle",
-        title: "Micro Frontend, Vue → React 전환",
+        title: "2. MFE(Micro Front End)",
         type: "par",
         problem:
           "WebView는 Vue3 중심으로 작성되어 있었고 MFE로 React 쪽으로 옮기는 과정이 필요함. 성능(렌더링·런타임 등) 면에서 Vue보다 React가 낫다고 판단해 전환을 추진. 전환기에는 Vue와 React가 공존해야 하고 Vuex/Pinia·운영 흐름과 연동돼야 하며, 번들·로딩 부담도 함께 커짐.",
@@ -77,7 +78,7 @@ export const companies: Company[] = [
       },
       {
         id: "funble-ws",
-        title: "WebSocket 기반 실시간 채팅·거래 기능 개발",
+        title: "3. WebSocket 기반 실시간 채팅·거래 기능 개발",
         type: "overview",
         overview:
           "WebSocket 실시간 채팅·거래: 이벤트 동기화, 연결·재연결·경합 등 클라이언트 상태 처리, HTTP 스냅샷과 WS 역할 분리, 장 내·장 외 규칙 분기.",
@@ -86,22 +87,8 @@ export const companies: Company[] = [
         ],
       },
       {
-        id: "funble-ds",
-        title: "디자인 시스템 구조화 및 Storybook 도입",
-        type: "par",
-        problem:
-          "공통 UI가 흩어져 있어 화면별 구현 품질이 달라지고, 컴포넌트 재사용/검증 비용이 커짐.",
-        approach: [
-          "디자인 시스템을 구조화하고 Storybook을 도입해 UI 컴포넌트를 문서화",
-          "공통 UI 패키지의 번들 최적화로 배포/적용 비용을 낮춤",
-        ],
-        result: [
-          "디자인·개발·운영이 같은 컴포넌트 기준을 보도록 정리되어 UI 일관성과 재사용성이 개선됨",
-        ],
-      },
-      {
         id: "funble-editor",
-        title: "운영용 에디터(Tiptap)·설정 및 도메인 화면 개선",
+        title: "4. 운영용 에디터(Tiptap)·설정 및 도메인 화면 개선",
         type: "par",
         problem:
           "기존 운영 에디터는 WYSIWYG가 아니어 작성 화면과 실제 노출이 어긋나기 쉬웠고, 실제 운영 환경에서 다시 확인해야 하는 불편이 있었음. 설정·도메인 화면(수익자총회 등) UX·로직 정리도 필요함.",
@@ -140,7 +127,7 @@ export const companies: Company[] = [
     projects: [
       {
         id: "santa-auth",
-        title: "수강생·운영자 프로젝트 로그인·인증 통합",
+        title: "1. 수강생·운영자 프로젝트 로그인·인증 통합",
         type: "par",
         problem:
           "수강생용과 운영자(어드민)용 프로젝트가 각각 있었고, 같은 DB를 쓰는데도 로그인·인증이 동일하게 중복 구현되어 있었음. 그중에서도 인증 관련 로직이 겹쳐 두 프로젝트를 따로 유지보수해야 하는 부담이 큼.",
@@ -155,7 +142,8 @@ export const companies: Company[] = [
       },
       {
         id: "santa-monorepo",
-        title: "어드민·수강생 페이지·디자인 라이브러리 워크스페이스 연동",
+        title:
+          "2. 어드민 · 수강생 페이지 · 디자인 라이브러리 모노레포 구성",
         type: "par",
         problem:
           "어드민, 수강생(학습) 페이지, 공통 디자인 라이브러리가 각각 있던 구조에서, 라이브러리(디자인 시스템)를 테스트하려면 배포 → 확인을 반복해야 했고 버전 번호만 빠르게 올라가는 비효율이 큼.",
@@ -171,7 +159,7 @@ export const companies: Company[] = [
       },
       {
         id: "santa-stability",
-        title: "서비스 안정성 및 효율성 향상",
+        title: "3. 서비스 안정성 및 효율성 향상",
         type: "par",
         problem:
           "테마 빌더·대시보드 등 코어 기능이 커지면서 폼·상태가 복잡해지고, 레포마다 폴더 구조가 달라 온보딩 비용이 큼. 3000줄에 가까운 대형 파일 규모 컴포넌트가 나와 가독성·수정 리스크가 큼. 개발자마다 폼 처리 방식이 달라 유지보수가 어려움. 서비스가 커지며 동일·유사 함수·컴포넌트가 중복 작성되는 경우가 늘어남.",
@@ -189,7 +177,7 @@ export const companies: Company[] = [
       },
       {
         id: "santa-builder",
-        title: "홈페이지 빌더 기능 개발",
+        title: "4. 홈페이지 빌더 기능 개발",
         type: "overview",
         overview:
           "어드민에서 코드 없이 페이지를 구성하는 홈(랜딩) 빌더(Wix 같은 노코드 빌더에 가까운 흐름)가 있었음. 이 안에서 배너·슬라이드 배너·텍스트 등 블록 단위 기능을 여럿 개발했고, 블록마다 스타일 옵션을 고를 수 있게 했으며, 테마 색(팔레트)을 정의해 적용할 수 있게 함.",
@@ -224,7 +212,8 @@ export const companies: Company[] = [
     projects: [
       {
         id: "fc-app",
-        title: "퀵커머스 「10분특공대」 모바일 앱",
+        title:
+          "1. 퀵커머스 「10분특공대」모바일 앱 (2022.05 - 2022.10)",
         tags: ["React Native", "React Query", "TypeScript", "Payple", "Express", "MySQL"],
         type: "overview",
         overview:
@@ -238,7 +227,8 @@ export const companies: Company[] = [
       },
       {
         id: "fc-admin",
-        title: "10분특공대 관리자 페이지 제작",
+        title:
+          "2. 10분특공대 관리자 페이지 제작  (2022.05 - 2022.10)",
         tags: ["Node.js", "Express", "MySQL", "Vue", "BootstrapVue", "Kakao Map", "Polygon"],
         type: "overview",
         overview:
@@ -255,7 +245,7 @@ export const companies: Company[] = [
       },
       {
         id: "fc-sync",
-        title: "Sync 스마트 스케줄링",
+        title: "3. Sync 스마트 스케줄링 (2022.10 - 2023.02)",
         tags: ["Next.js", "TypeScript", "MUI", "Recoil", "Storybook", "Jest", "FullCalendar", "i18n", "ESLint", "Husky", "Jenkins", "GitHub Actions", "AWS ECR", "React Testing Library"],
         type: "overview",
         overview:
@@ -286,7 +276,7 @@ export const companies: Company[] = [
     projects: [
       {
         id: "ag-shop",
-        title: "쇼핑몰 구축 및 브랜드 운영",
+        title: "1. 쇼핑몰 구축 및 브랜드 운영",
         tags: ["JavaScript", "jQuery", "Cafe24"],
         type: "overview",
         overview:
@@ -300,29 +290,45 @@ export const companies: Company[] = [
       },
       {
         id: "ag-seo",
-        title: "SEO·웹 분석 체계 구축",
+        title: "2. SEO",
+        tags: ["SEO", "sitemap", "robots.txt", "Search Advisor"],
+        type: "par",
+        problem:
+          "쇼핑몰/브랜드 수가 늘어나며 페이지별 검색 노출 상태와 유입 흐름을 한 번에 점검하기 어려웠고, 기본적인 크롤링/색인 품질이 브랜드마다 들쑥날쑥했음",
+        approach: [
+          "웹 표준에 맞춰 페이지별 메타(타이틀/디스크립션 등)와 핵심 랜딩 구조를 정리",
+          "sitemap, robots.txt, RSS 등 검색·크롤링 기본 구성을 정비하고, 신규 상품/페이지 생성 시 갱신 루틴을 운영 흐름에 포함",
+        ],
+        result: [
+          "검색 유입을 점검하고 개선할 수 있는 기본 구조를 갖춤",
+          "네이버 서치어드바이저(웹마스터 도구) 기준 품질 점수가 평균 약 20% 개선되어, 색인/노출 상태를 더 안정적으로 관리할 수 있게 됨",
+        ],
+        reflection:
+          "SEO는 일회성 작업보다 운영 프로세스에 녹이는 것이 중요했고, 가이드/체크 항목으로 표준화해 재현 가능하게 만드는 방향이 효과적이었음.",
+      },
+      {
+        id: "ag-ga",
+        title: "3. GA·측정/분석",
         tags: ["전자상거래", "GA3", "퍼널분석", "GTM", "Data Studio"],
         type: "par",
         problem:
-          "쇼핑몰 수가 늘어나며 페이지별 검색·유입·전환을 잡기 어렵고, 마케팅·운영 판단에 쓸 데이터가 부족함. 전자상거래(상품·주문·결제 등 쇼핑 흐름)가 갖춰져야 유입뿐 아니라 구매·전환까지 분석·개선할 수 있음.",
+          "마케팅·운영 판단에 쓸 데이터가 부족해, 유입뿐 아니라 구매·전환까지 일관되게 보기 어려움",
         approach: [
-          "SEO: 웹 표준에 맞춰 페이지별 메타, sitemap, robots.txt, RSS 등 검색·크롤링 구조 정비",
-          "전자상거래·측정: 자사 브랜드 몰에 실제 구매 흐름을 갖춘 뒤 GA3(Universal Analytics)와 GTM을 설치·정리해 태그·이벤트 기준을 통일",
-          "GTM을 중심으로 GA3 퍼널을 설계·적용해 단계별 유입·이탈·전환을 점검",
-          "Data Studio(현 Looker Studio)로 트래픽·전환·퍼널을 한눈에 보는 보고서를 구성해, 유입·콘텐츠·퍼널 성과를 바탕으로 전략·우선순위를 논의할 수 있게 함",
-          "수집·집계부터 보고서 공유까지 흐름을 한 줄로 묶어, 반복 리포팅 부담을 줄임",
+          "자사 브랜드 몰에 실제 구매 흐름을 갖춘 뒤 GA3(Universal Analytics)와 GTM을 설치·정리해 태그·이벤트 기준을 통일",
+          "GTM을 중심으로 이벤트·태그 추적을 설계·적용해, 코드 배포 없이 측정을 조정하며 안정적으로 운영할 수 있게 함",
+          "Data Studio(현 Looker Studio)로 트래픽·전환·퍼널을 한눈에 보는 보고서를 구성해, 성과를 바탕으로 우선순위를 논의할 수 있게 함",
+          "수집·집계부터 보고서 공유까지 흐름을 한 줄로 묶어 반복 리포팅 부담을 줄임",
         ],
         result: [
-          "전자상거래가 돌아가는 몰 위에서 검색·캠페인 유입을 점검할 수 있는 기준 마련",
           "GA3·퍼널 분석으로 단계별 개선 포인트를 잡고, 데이터 기반으로 프로모션·페이지 우선순위를 논의할 수 있는 환경 구축",
-          "Data Studio로 대시보드·커스텀 보고서를 구성해, GA 등에서 들어오는 데이터를 별도 수동 집계 없이 실시간에 가깝게 조회·공유할 수 있게 함",
+          "Data Studio 대시보드로 데이터를 별도 수동 집계 없이 실시간에 가깝게 조회·공유",
         ],
         reflection:
-          "GA·웹 분석은 마케터와 개발자가 긴밀히 맞물려야 하는 그레이 영역에 가깝다고 느낌 — 마케터에게는 코드·태그 설계가, 개발자에게는 마케팅·측정 니즈가 각각 이해하기 어려운 지점으로 남는 경우가 많음. 그 경계를 내 역할 안으로 받아들이고 GA를 깊게 공부하며 성장했고, 축적된 내용을 바탕으로 GA 스터디를 운영할 만큼 익혀 뿌듯함으로 남음. 책임 범위를 넓히는 것은 처음엔 부담이었지만, 그 과정에서 업무 스펙트럼이 넓어진 것이 보람으로 이어짐.",
+          "GA·웹 분석은 마케터와 개발자가 맞물리는 영역이라 태그 설계/측정 니즈를 함께 정리하는 과정이 중요하다고 느꼈고, 축적된 내용을 바탕으로 GA 스터디를 운영하며 내부 공유·확산까지 진행",
       },
       {
         id: "ag-vba",
-        title: "재고·발주 운영 자동화",
+        title: "4. 재고·발주 운영 자동화",
         tags: ["Excel", "VBA"],
         type: "par",
         problem:
@@ -350,7 +356,7 @@ export const companies: Company[] = [
     projects: [
       {
         id: "id-gnuboard",
-        title: "그누보드 기반 홈페이지 유지보수",
+        title: "1. 그누보드 기반 홈페이지 유지보수",
         type: "overview",
         overview:
           "운영 중인 그누보드 기반 회사 홈페이지의 유지보수 및 콘텐츠·이미지 반영 업무를 담당.",
@@ -358,14 +364,14 @@ export const companies: Company[] = [
       },
       {
         id: "id-cafe24",
-        title: "카페24 기반 신규 홈페이지 구축",
+        title: "2. 카페24 기반 신규 홈페이지",
         type: "overview",
         overview: "카페24 환경에서 신규 홈페이지 구축 후 운영 관리 담당.",
         resultText: "신규 채널을 출시 후 운영 가능한 상태로 마무리.",
       },
       {
         id: "id-design",
-        title: "디자인",
+        title: "3. 디자인",
         type: "overview",
         overview:
           "인스타그램·브로셔·패키지·DNPS 잡지 등 브랜드·제품 홍보용 디자인 작업.",
