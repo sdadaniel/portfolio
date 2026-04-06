@@ -290,7 +290,7 @@ export default function AIMarkdown({
                     .join(" ")}
                   onClick={() => {
                     const src = props.src;
-                    if (src) setModalImg({ src, alt: props.alt ?? "" });
+                    if (src && typeof src === "string") setModalImg({ src, alt: props.alt ?? "" });
                   }}
                 />
               );

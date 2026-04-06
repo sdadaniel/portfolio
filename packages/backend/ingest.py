@@ -1,5 +1,6 @@
 """docs 폴더의 MD/PDF 파일을 읽어 ChromaDB에 임베딩하는 스크립트."""
 
+import argparse
 import os
 import pathlib
 
@@ -64,7 +65,7 @@ def load_documents(docs_dir: str) -> list[dict]:
     return documents
 
 
-def ingest():
+def ingest(reset: bool = False):
     documents = []
     for docs_dir in DOCS_DIRS:
         print(f"Loading documents from {docs_dir} ...")
@@ -85,24 +86,38 @@ def ingest():
             )
     print(f"Created {len(chunks)} chunks")
 
+    # ChromaDB 준비
+    client = chromadb.PersistentClient(path=CHROMA_DIR)
+
+    if reset:
+        print("Resetting: 기존 컬렉션 삭제 후 재생성")
+        try:
+            client.delete_collection(COLLECTION_NAME)
+        except Exception:
+            pass
+        collection = client.create_collection(
+            name=COLLECTION_NAME,
+            metadata={"hnsw:space": "cosine"},
+        )
+    else:
+        collection = client.get_or_create_collection(
+            name=COLLECTION_NAME,
+            metadata={"hnsw:space": "cosine"},
+        )
+        # 이미 있는 ID 제외
+        existing_ids = set(collection.get()["ids"])
+        chunks = [c for c in chunks if c["id"] not in existing_ids]
+        if not chunks:
+            print("새로 추가할 문서가 없습니다.")
+            return
+        print(f"새로 추가할 청크: {len(chunks)}개 (기존 {len(existing_ids)}개 유지)")
+
     # 임베딩
     print(f"Using OpenAI embedding model: {EMBEDDING_MODEL} ...")
     client_openai = OpenAI()
     texts_to_embed = [c["text"] for c in chunks]
     response = client_openai.embeddings.create(model=EMBEDDING_MODEL, input=texts_to_embed)
     embeddings = [item.embedding for item in response.data]
-
-    # ChromaDB 저장
-    client = chromadb.PersistentClient(path=CHROMA_DIR)
-    # 기존 컬렉션 있으면 삭제 후 재생성
-    try:
-        client.delete_collection(COLLECTION_NAME)
-    except Exception:
-        pass
-    collection = client.create_collection(
-        name=COLLECTION_NAME,
-        metadata={"hnsw:space": "cosine"},
-    )
 
     collection.add(
         ids=[c["id"] for c in chunks],
@@ -111,7 +126,11 @@ def ingest():
         metadatas=[c["metadata"] for c in chunks],
     )
     print(f"Saved {len(chunks)} chunks to ChromaDB at {CHROMA_DIR}")
+    print(f"총 청크 수: {collection.count()}")
 
 
 if __name__ == "__main__":
-    ingest()
+    parser = argparse.ArgumentParser(description="포트폴리오 문서 임베딩")
+    parser.add_argument("--reset", action="store_true", help="기존 데이터 삭제 후 전체 재생성")
+    args = parser.parse_args()
+    ingest(reset=args.reset)

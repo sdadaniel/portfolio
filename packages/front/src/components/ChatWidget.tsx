@@ -8,9 +8,12 @@ interface Message {
   content: string;
 }
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+
 export default function ChatWidget() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [shouldAnimate, setShouldAnimate] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -46,7 +49,7 @@ export default function ChatWidget() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isChatOpen]);
 
-  const handleSend = () => {
+  const handleSend = async () => {
     const text = input.trim();
     if (!text) return;
 
@@ -55,20 +58,61 @@ export default function ChatWidget() {
       role: "user",
       content: text,
     };
-    setMessages((prev) => [...prev, userMsg]);
+    const updated = [...messages, userMsg];
+    const assistantId = Date.now() + 1;
+    setMessages([...updated, { id: assistantId, role: "assistant", content: "" }]);
     setInput("");
+    setIsLoading(true);
 
-    // 임시 응답 (추후 백엔드 연결)
-    setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: Date.now() + 1,
-          role: "assistant",
-          content: "아직 백엔드가 연결되지 않았습니다. 곧 연결할게요!",
-        },
-      ]);
-    }, 600);
+    try {
+      const res = await fetch(`${API_URL}/chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message: text,
+          history: updated.map((m) => ({ role: m.role, content: m.content })),
+        }),
+      });
+
+      if (!res.ok) throw new Error("서버 응답 오류");
+
+      const reader = res.body?.getReader();
+      if (!reader) throw new Error("스트림을 읽을 수 없습니다");
+
+      const decoder = new TextDecoder();
+      let buffer = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop() ?? "";
+
+        for (const line of lines) {
+          if (!line.startsWith("data: ") || line === "data: [DONE]") continue;
+          const data = JSON.parse(line.slice(6));
+          if (data.type === "content") {
+            setMessages((prev) =>
+              prev.map((m) =>
+                m.id === assistantId ? { ...m, content: m.content + data.text } : m
+              )
+            );
+          }
+        }
+      }
+    } catch {
+      setMessages((prev) =>
+        prev.map((m) =>
+          m.id === assistantId
+            ? { ...m, content: m.content || "죄송합니다. 서버에 연결할 수 없습니다. 잠시 후 다시 시도해주세요." }
+            : m
+        )
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const sampleQuestions = [
@@ -123,6 +167,15 @@ export default function ChatWidget() {
               ) : (
                 /* 메시지 영역 */
                 <div className="max-h-[350px] overflow-y-auto px-5 pt-5 pb-3 space-y-3">
+                  <div className="flex justify-end">
+                    <button
+                      type="button"
+                      onClick={() => setMessages([])}
+                      className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
+                    >
+                      대화 초기화
+                    </button>
+                  </div>
                   {messages.map((msg) => (
                     <div
                       key={msg.id}
@@ -165,7 +218,7 @@ export default function ChatWidget() {
             />
             <button
               type="submit"
-              disabled={!input.trim()}
+              disabled={!input.trim() || isLoading}
               className="shrink-0 w-9 h-9 rounded-full bg-primary text-white flex items-center justify-center hover:bg-primary-dark transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
             >
               <svg
