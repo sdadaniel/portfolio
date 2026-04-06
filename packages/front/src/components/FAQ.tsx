@@ -79,7 +79,14 @@ export default function FAQ() {
         <div className="mt-8 md:mt-12 space-y-8 md:space-y-10">
           {faqItems.map((group) => (
             <div key={group.category}>
-              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+              <h3
+                id={group.category
+                  .replace(/[^a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ\s-]/g, "")
+                  .trim()
+                  .replace(/\s+/g, "-")
+                  .toLowerCase()}
+                className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2 scroll-mt-20"
+              >
                 <span className="w-2 h-2 rounded-full bg-primary" />
                 {group.category}
               </h3>

@@ -129,20 +129,6 @@ export default function AIMarkdown({
     <>
       {modalImg && <ImageModal src={modalImg.src} alt={modalImg.alt} onClose={closeModal} />}
     <div className="p-4 sm:p-8 md:p-12">
-      {/* Status badge */}
-      <div className="mb-6">
-        <span
-          className={`px-2.5 py-0.5 text-[10px] rounded-full font-medium ${
-            project.status === "완료"
-              ? "bg-emerald-50 text-emerald-600"
-              : project.status === "진행중"
-                ? "bg-blue-50 text-blue-600"
-                : "bg-gray-100 text-gray-400"
-          }`}
-        >
-          {project.status}
-        </span>
-      </div>
 
       <article id="ai-markdown-content" className="prose prose-sm max-w-none prose-headings:text-gray-900 prose-h1:text-2xl prose-h1:sm:text-3xl prose-h1:font-bold prose-h1:mb-2 prose-h2:text-lg prose-h2:font-bold prose-h2:mt-10 prose-h2:mb-3 prose-h3:text-base prose-h3:font-semibold prose-h3:text-gray-900 prose-h3:mt-8 prose-h3:mb-2 prose-h4:text-sm prose-h4:font-semibold prose-h4:text-gray-700 prose-h4:mt-6 prose-h4:mb-1 prose-p:text-sm prose-p:text-gray-600 prose-p:leading-relaxed prose-li:text-sm prose-li:text-gray-600 prose-strong:text-gray-800 prose-img:rounded-lg prose-img:my-4 prose-a:no-underline prose-a:text-primary prose-a:font-medium prose-a:hover:text-primary-dark">
         {parseSwiperBlocks(markdown).map((part, i) =>
