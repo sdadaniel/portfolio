@@ -1,7 +1,11 @@
+"use client";
+
 import Link from "next/link";
+import { useRef, useState, useEffect } from "react";
 
 const careers = [
   {
+    id: "funble",
     name: "펀블",
     period: "2025.01 – 2025.10",
     duration: "10개월",
@@ -13,6 +17,7 @@ const careers = [
     ],
   },
   {
+    id: "santa",
     name: "산타",
     period: "2023.04 – 2024.12",
     duration: "1년 9개월",
@@ -24,6 +29,7 @@ const careers = [
     ],
   },
   {
+    id: "flyingcat",
     name: "플라잉캣",
     period: "2021.07 – 2023.02",
     duration: "1년 8개월",
@@ -35,6 +41,7 @@ const careers = [
     ],
   },
   {
+    id: "aboutgoods",
     name: "어바웃굿즈",
     period: "2019.06 – 2021.01",
     duration: "1년 8개월",
@@ -45,6 +52,7 @@ const careers = [
     ],
   },
   {
+    id: "idermabio",
     name: "아이더마바이오",
     period: "2018.02 – 2019.01",
     duration: "1년",
@@ -78,56 +86,122 @@ export default function CareerSummary() {
           </Link>
         </div>
 
-        <div className="relative">
-          {/* 세로 타임라인 줄 */}
-          <div className="absolute left-[7px] top-0 bottom-0 w-0.5 bg-gray-200" />
-
-          {careers.map((c) => (
-              <div
-                key={c.name}
-                className="relative flex items-start mb-12 last:mb-0"
-              >
-                {/* 타임라인 도트 */}
-                <div className="absolute left-0 top-1 z-10 w-[15px] h-[15px] rounded-full border-[3px] border-primary bg-white" />
-
-                {/* 카드 */}
-                <div className="ml-8">
-                  <div className="p-5 bg-white rounded-xl border border-border hover:border-primary/30 hover:shadow-md transition-all">
-                    <div className="flex items-center gap-3 mb-1">
-                      <h3 className="text-xl font-bold text-gray-900">
-                        {c.name}
-                      </h3>
-                      <span className="px-2.5 py-0.5 text-[10px] bg-primary/10 text-primary rounded-full font-medium">
-                        정규직
-                      </span>
-                    </div>
-                    <span className="text-xs text-gray-400 font-mono">
-                      {c.period} · {c.duration}
-                    </span>
-
-                    <p className="text-sm text-primary font-medium mt-3 mb-2">
-                      {c.role}
-                    </p>
-
-                    <ul className="space-y-1.5">
-                      {c.highlights.map((h, i) => (
-                        <li
-                          key={i}
-                          className="text-xs text-gray-500 flex gap-2 items-start"
-                        >
-                          <span className="text-primary mt-0.5 shrink-0">
-                            —
-                          </span>
-                          {h}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-          ))}
-        </div>
+        <CareerTimeline />
       </div>
     </section>
+  );
+}
+
+const OVERLAP = 40; // 카드 간 겹침 px
+
+function CareerTimeline() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [positions, setPositions] = useState<{ top: number }[]>([]);
+  const [totalHeight, setTotalHeight] = useState(0);
+
+  useEffect(() => {
+    const calculate = () => {
+      const cards = cardRefs.current;
+      if (!cards.length) return;
+
+      const tops: { top: number }[] = [];
+      let leftBottom = 0;
+      let rightBottom = 0;
+
+      cards.forEach((card, idx) => {
+        const h = card?.offsetHeight ?? 0;
+        const isLeft = idx % 2 === 0;
+
+        if (isLeft) {
+          tops.push({ top: leftBottom });
+          leftBottom += h + OVERLAP;
+          // 첫 오른쪽 카드는 왼쪽 첫 카드의 중간쯤에서 시작
+          if (idx === 0) rightBottom = Math.round(h * 0.5);
+        } else {
+          tops.push({ top: rightBottom });
+          rightBottom += h + OVERLAP;
+        }
+      });
+
+      setPositions(tops);
+      setTotalHeight(Math.max(leftBottom - OVERLAP, rightBottom - OVERLAP));
+    };
+
+    calculate();
+    window.addEventListener("resize", calculate);
+    return () => window.removeEventListener("resize", calculate);
+  }, []);
+
+  return (
+    <>
+      {/* 모바일: 기존 수직 타임라인 */}
+      <div className="md:hidden relative">
+        <div className="absolute left-[7px] top-0 bottom-0 w-0.5 bg-gray-200" />
+        {careers.map((c) => (
+          <div key={c.name} className="relative flex items-start mb-6 last:mb-0">
+            <div className="absolute left-0 top-1 z-10 w-[15px] h-[15px] rounded-full border-[3px] border-primary bg-white" />
+            <div className="ml-8">
+              <TimelineCard career={c} />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* md 이상: 좌우 교대 타임라인 */}
+      <div ref={containerRef} className="hidden md:block relative" style={{ height: totalHeight || "auto" }}>
+        {/* 중앙 세로선 */}
+        <div className="absolute left-1/2 -translate-x-[1px] top-0 bottom-0 w-0.5 bg-gray-200" />
+
+        {careers.map((c, idx) => {
+          const isLeft = idx % 2 === 0;
+          const top = positions[idx]?.top ?? 0;
+
+          return (
+            <div
+              key={c.name}
+              ref={(el) => { cardRefs.current[idx] = el; }}
+              className="absolute w-[calc(50%-2rem)]"
+              style={{
+                top,
+                ...(isLeft ? { left: 0 } : { right: 0 }),
+              }}
+            >
+              {/* 도트 */}
+              <div
+                className="absolute top-5 z-10 w-[15px] h-[15px] rounded-full border-[3px] border-primary bg-white"
+                style={isLeft ? { right: "-2.5rem" } : { left: "-2.5rem" }}
+              />
+              <TimelineCard career={c} />
+            </div>
+          );
+        })}
+      </div>
+    </>
+  );
+}
+
+function TimelineCard({ career: c }: { career: typeof careers[number] }) {
+  return (
+    <Link href={`/project/${c.id}`} className="block p-5 bg-white rounded-xl border border-border hover:border-primary/30 hover:shadow-md transition-all cursor-pointer">
+      <div className="flex items-center gap-3 mb-1">
+        <h3 className="text-xl font-bold text-gray-900">{c.name}</h3>
+        <span className="px-2.5 py-0.5 text-[10px] bg-primary/10 text-primary rounded-full font-medium">
+          정규직
+        </span>
+      </div>
+      <span className="text-xs text-gray-400 font-mono">
+        {c.period} · {c.duration}
+      </span>
+      <p className="text-sm text-primary font-medium mt-3 mb-2">{c.role}</p>
+      <ul className="space-y-1.5">
+        {c.highlights.map((h, i) => (
+          <li key={i} className="text-xs text-gray-500 flex gap-2 items-start">
+            <span className="text-primary mt-0.5 shrink-0">—</span>
+            {h}
+          </li>
+        ))}
+      </ul>
+    </Link>
   );
 }

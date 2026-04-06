@@ -14,65 +14,44 @@ export default function Hero() {
       <div className="absolute top-0 right-0 w-[250px] h-[250px] md:w-[500px] md:h-[500px] bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4" />
       <div className="absolute bottom-0 left-0 w-[200px] h-[200px] md:w-[400px] md:h-[400px] bg-primary/3 rounded-full blur-3xl translate-y-1/2 -translate-x-1/4" />
 
-      <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-        <div className="inline-block mb-6 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/5 text-primary text-sm font-medium">
-          Frontend Developer · 경력 약 7년
-        </div>
+      <div className="relative z-10 max-w-6xl mx-auto px-6">
+        <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-center">
+          {/* 왼쪽: 소개 */}
+          <div>
+            <div className="inline-block mb-6 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/5 text-primary text-sm font-medium">
+              Frontend Developer · 경력 약 7년
+            </div>
 
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 text-gray-900">
-          곽성실
-        </h1>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 text-gray-900">
+              곽성실
+            </h1>
 
-        <p className="text-gray-600 text-lg md:text-xl max-w-2xl mx-auto mb-4 leading-relaxed">
-          Next.js · React · TypeScript 기반 서비스 개발을 주도해 온
-          <br className="hidden md:block" />
-          프론트엔드 개발자입니다.
-        </p>
+            <p className="text-gray-600 text-lg md:text-xl mb-4 leading-relaxed">
+              Next.js · React · TypeScript 기반 서비스 개발을 주도해 온
+              프론트엔드 개발자입니다.
+            </p>
 
-        <p className="text-gray-400 text-sm md:text-base max-w-2xl mx-auto mb-8 leading-relaxed">
-          대규모 서비스 리뉴얼, WebView–Native 인증 통합, Monorepo 구축,
-          대시보드·포털 개발 등 복잡한 도메인과 구조적 문제를 다루는 일을 꾸준히
-          맡아 왔습니다. 디자인 시스템·빌드 시스템·CI/CD 자동화까지 프론트엔드
-          개발 전반을 개선하는 역할을 맡아 왔습니다.
-        </p>
+            <p className="text-gray-400 text-sm md:text-base mb-8 leading-relaxed">
+              대규모 서비스 리뉴얼, WebView–Native 인증 통합, Monorepo 구축,
+              대시보드·포털 개발 등 복잡한 도메인과 구조적 문제를 다루는 일을 꾸준히
+              맡아 왔습니다. 디자인 시스템·빌드 시스템·CI/CD 자동화까지 프론트엔드
+              개발 전반을 개선하는 역할을 맡아 왔습니다.
+            </p>
 
-        <div className="flex flex-wrap justify-center gap-4 mb-10">
-          <Stat label="경력" value="약 7년" />
-          <Stat label="번들 절감" value="30%+" />
-          <Stat label="개발 효율" value="50%+" />
-          <Stat label="운영 개선" value="80%+" />
-        </div>
+          </div>
 
-        <div className="flex flex-wrap justify-center gap-3 mb-10">
-          <ContactChip label="sdadaniel0206@gmail.com" />
-          <ContactChip label="010-6495-8263" />
-        </div>
-
-        <div className="max-w-3xl mx-auto">
-          <div className="flex flex-wrap justify-center gap-2">
-            {[
-              "React",
-              "Next.js",
-              "TypeScript",
-              "Vue 3",
-              "React Native",
-              "React Query",
-              "Zustand",
-              "Storybook",
-              "Jest",
-              "GitHub Actions",
-              "Docker",
-              "GA / GTM",
-            ].map((skill) => (
-              <span
-                key={skill}
-                className="px-3 py-1 text-xs rounded-full border border-primary/20 text-primary bg-primary/5 font-medium"
-              >
-                {skill}
-              </span>
-            ))}
+          {/* 오른쪽: 연락처 */}
+          <div className="flex flex-col gap-4">
+            <ContactItem label="Email" value="sdadaniel0206@gmail.com" href="mailto:sdadaniel0206@gmail.com" />
+            <ContactItem label="Phone" value="010-6495-8263" href="tel:010-6495-8263" />
+            <ContactItem label="GitHub" value="github.com/sdadaniel" href="https://github.com/sdadaniel" />
+            <ContactItem label="Velog" value="velog.io/@sdadaniel" href="https://velog.io/@sdadaniel" />
           </div>
         </div>
+
+        <p className="text-center text-sm text-gray-400 mt-20">
+          궁금한 부분은 아래 챗봇에게 물어보세요
+        </p>
       </div>
 
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
@@ -91,19 +70,16 @@ export default function Hero() {
   );
 }
 
-function Stat({ label, value }: { label: string; value: string }) {
+function ContactItem({ label, value, href }: { label: string; value: string; href: string }) {
   return (
-    <div className="px-3 py-2 md:px-5 md:py-3 bg-white rounded-lg border border-border shadow-sm">
-      <div className="text-base md:text-xl font-bold text-primary">{value}</div>
-      <div className="text-[10px] md:text-xs text-gray-400">{label}</div>
-    </div>
-  );
-}
-
-function ContactChip({ label }: { label: string }) {
-  return (
-    <span className="px-3 py-1.5 text-xs bg-surface rounded-full border border-border text-gray-500">
-      {label}
-    </span>
+    <a
+      href={href}
+      target={href.startsWith("http") ? "_blank" : undefined}
+      rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+      className="flex items-center gap-4 px-5 py-4 bg-white rounded-xl border border-border hover:border-primary/30 hover:shadow-sm transition-all"
+    >
+      <span className="text-xs font-medium text-gray-400 w-14 shrink-0">{label}</span>
+      <span className="text-sm text-gray-700">{value}</span>
+    </a>
   );
 }

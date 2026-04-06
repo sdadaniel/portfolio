@@ -255,9 +255,9 @@ export default function Career() {
       <div className="max-w-6xl mx-auto">
         <SectionTitle title="Career" subtitle="Work Experience" />
 
-        <div className="mt-12 space-y-16">
-          {companies.map((company) => (
-            <CompanyCard key={company.name} company={company} />
+        <div className="mt-12 space-y-20">
+          {companies.map((company, i) => (
+            <CompanyCard key={company.name} company={company} reverse={i % 2 === 1} />
           ))}
         </div>
       </div>
@@ -265,31 +265,27 @@ export default function Career() {
   );
 }
 
-function CompanyCard({ company }: { company: Company }) {
+function CompanyCard({ company, reverse }: { company: Company; reverse: boolean }) {
   const [expanded, setExpanded] = useState(false);
 
-  return (
-    <div className="group">
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-4">
-        <div>
-          <h3 className="text-2xl md:text-3xl font-bold">{company.name}</h3>
-          <span className="text-sm text-gray-500 font-mono">
-            {company.period} · {company.duration}
-          </span>
-        </div>
-        <div className="mt-2 md:mt-0">
-          <span className="px-3 py-1 text-xs bg-primary/10 text-primary rounded-full">
-            정규직
-          </span>
-        </div>
+  const infoSection = (
+    <div className="flex-1 min-w-0">
+      <div className="flex flex-wrap items-end gap-3 mb-4">
+        <h3 className="text-2xl md:text-3xl font-bold">{company.name}</h3>
+        <span className="px-3 py-1 text-xs bg-primary/10 text-primary rounded-full">
+          정규직
+        </span>
       </div>
+      <span className="text-sm text-gray-500 font-mono">
+        {company.period} · {company.duration}
+      </span>
 
-      <p className="text-sm text-gray-400 mb-2">{company.role}</p>
-      <p className="text-sm text-gray-500 leading-relaxed mb-4 max-w-4xl">
+      <p className="text-sm text-gray-400 mt-3 mb-2">{company.role}</p>
+      <p className="text-sm text-gray-500 leading-relaxed mb-5">
         {company.summary}
       </p>
 
-      <div className="mb-6">
+      <div>
         <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
           Tech Stack
         </span>
@@ -304,7 +300,11 @@ function CompanyCard({ company }: { company: Company }) {
           ))}
         </div>
       </div>
+    </div>
+  );
 
+  const projectSection = (
+    <div className="flex-1 min-w-0">
       <button
         onClick={() => setExpanded(!expanded)}
         className="flex items-center gap-2 text-sm text-primary hover:text-primary-light transition-colors mb-4"
@@ -323,14 +323,22 @@ function CompanyCard({ company }: { company: Company }) {
       </button>
 
       {expanded && (
-        <div className="space-y-4 ml-2 border-l-2 border-border pl-6">
+        <div className="space-y-4 border-l-2 border-border pl-5">
           {company.projects.map((project) => (
             <ProjectBlock key={project.title} project={project} />
           ))}
         </div>
       )}
+    </div>
+  );
 
-      <div className="mt-8 border-b border-border" />
+  return (
+    <div className="group">
+      <div className={`flex flex-col lg:flex-row gap-8 lg:gap-12 ${reverse ? "lg:flex-row-reverse" : ""}`}>
+        {infoSection}
+        {projectSection}
+      </div>
+      <div className="mt-10 border-b border-border" />
     </div>
   );
 }
