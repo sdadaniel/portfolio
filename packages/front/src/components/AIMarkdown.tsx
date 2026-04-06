@@ -92,7 +92,7 @@ function parseSwiperBlocks(md: string) {
 const sanitizeSchema = {
   ...defaultSchema,
   clobberPrefix: "",
-  tagNames: [...(defaultSchema.tagNames ?? []), "img", "div"],
+  tagNames: [...(defaultSchema.tagNames ?? []), "img", "div", "video", "source"],
   attributes: {
     ...(defaultSchema.attributes ?? {}),
     a: [...(defaultSchema.attributes?.a ?? []), "target", "rel", "title"],
@@ -110,6 +110,8 @@ const sanitizeSchema = {
       "decoding",
     ],
     div: [...(defaultSchema.attributes?.div ?? []), "class", "className", "id", "data-images"],
+    video: ["src", "controls", "autoplay", "muted", "loop", "playsinline", "style", "class", "className", "width", "height"],
+    source: ["src", "type"],
   },
 };
 

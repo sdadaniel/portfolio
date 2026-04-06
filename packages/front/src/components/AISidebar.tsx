@@ -110,20 +110,7 @@ export default function AISidebar() {
                         : "text-gray-700 hover:bg-surface"
                     }`}
                   >
-                    <div className="flex items-center justify-between">
-                      {project.title}
-                      <span
-                        className={`text-[10px] font-normal px-1.5 py-0.5 rounded-full ${
-                          project.status === "완료"
-                            ? "bg-emerald-50 text-emerald-500"
-                            : project.status === "진행중"
-                              ? "bg-blue-50 text-blue-500"
-                              : "bg-gray-100 text-gray-400"
-                        }`}
-                      >
-                        {project.status}
-                      </span>
-                    </div>
+                    {project.title}
                   </Link>
 
                   {isActive && headings.length > 0 && (
