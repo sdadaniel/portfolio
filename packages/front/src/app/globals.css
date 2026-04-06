@@ -1,0 +1,90 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-primary: #2563eb;
+  --color-primary-light: #3b82f6;
+  --color-primary-dark: #1d4ed8;
+  --color-surface: #f8fafc;
+  --color-surface-light: #f1f5f9;
+  --color-border: #e2e8f0;
+  --color-border-dark: #cbd5e1;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* 고정 헤더(h-16) + 여유. 앵커/브라우저 스크롤 시 제목이 네비에 가리지 않도록 */
+  scroll-padding-top: 5.5rem;
+}
+
+body {
+  font-family: var(--font-sans), sans-serif;
+}
+
+/* 고정 네비(h-16) 아래로 제목·앵커가 가리지 않도록 */
+article.prose [id] {
+  scroll-margin-top: 5.5rem;
+}
+
+article.prose > h1:first-of-type {
+  scroll-margin-top: 5.5rem;
+}
+
+::selection {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f8fafc;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chat-slide-up {
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* AI 마크다운 테이블: 왼쪽(구분) 열을 라벨 너비에 맞춤 */
+.ai-markdown-table :is(th, td):first-child {
+  width: 1%;
+  white-space: nowrap;
+  vertical-align: top;
+  padding-right: 0.75rem;
+}
+
+/* Company markdown: equal-width table image grid */
+/* article.prose table {
+  table-layout: fixed !important;
+  width: 100% !important;
+}
+article.prose td {
+  vertical-align: top !important;
+  padding: 4px !important;
+}
+article.prose td img {
+  width: 100% !important;
+  height: auto !important;
+  margin: 0 !important;
+} */
