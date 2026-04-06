@@ -2,7 +2,13 @@
 
 import { useState } from "react";
 
-const categories = ["퇴사 사유", "강점과 약점", "경험"];
+const categories = [
+  "지금까지 다닌 회사의 퇴사 사유가 무엇인가요",
+  "강점과 약점에 대해 설명해주세요",
+  "가지고 있는 경험을 알려주세요",
+  "어떤 회사를 선호하시나요",
+  "향후 어떤 개발자가 되고 싶은가요",
+];
 
 function slugify(text: string) {
   return text

@@ -17,7 +17,8 @@ DOCS_DIRS = [
     str(ROOT_DIR / "docs"),
     str(ROOT_DIR / "packages" / "front" / "src" / "content"),
 ]
-CHROMA_DIR = os.getenv("CHROMA_DIR", "./chroma_db")
+BACKEND_DIR = pathlib.Path(__file__).resolve().parent
+CHROMA_DIR = os.getenv("CHROMA_DIR", str(BACKEND_DIR / "chroma_db"))
 COLLECTION_NAME = "portfolio_docs"
 EMBEDDING_MODEL = "text-embedding-3-small"
 

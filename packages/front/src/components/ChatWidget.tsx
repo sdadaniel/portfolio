@@ -10,6 +10,20 @@ interface Message {
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 
+function TypingDots() {
+  return (
+    <span className="inline-flex gap-1 items-center h-5">
+      {[0, 1, 2].map((i) => (
+        <span
+          key={i}
+          className="w-1.5 h-1.5 rounded-full bg-gray-400 animate-bounce"
+          style={{ animationDelay: `${i * 0.15}s`, animationDuration: "0.6s" }}
+        />
+      ))}
+    </span>
+  );
+}
+
 export default function ChatWidget() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -137,14 +151,10 @@ export default function ChatWidget() {
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 pointer-events-none">
       <div ref={chatPanelRef} className="max-w-3xl mx-auto px-4 pb-6 pointer-events-auto">
-        <div
-          className={`bg-white border border-border rounded-2xl shadow-lg overflow-hidden ${
-            shouldAnimate ? "chat-slide-up" : ""
-          }`}
-        >
+        <div className="bg-white border border-border rounded-2xl shadow-lg overflow-hidden">
           {/* 채팅 영역 - input 포커스 시 표시 */}
           {isChatOpen && (
-            <>
+            <div className={shouldAnimate ? "chat-slide-up" : ""}>
               {messages.length === 0 ? (
                 /* 샘플 질문 영역 */
                 <div className="px-5 pt-5 pb-3">
@@ -188,14 +198,18 @@ export default function ChatWidget() {
                             : "bg-surface text-gray-800 border border-border rounded-bl-md"
                         }`}
                       >
-                        {msg.content}
+                        {!msg.content && msg.role === "assistant" && isLoading ? (
+                          <TypingDots />
+                        ) : (
+                          msg.content
+                        )}
                       </div>
                     </div>
                   ))}
                   <div ref={messagesEndRef} />
                 </div>
               )}
-            </>
+            </div>
           )}
 
           {/* 입력 바 */}

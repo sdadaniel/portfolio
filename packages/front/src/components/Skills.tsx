@@ -49,7 +49,7 @@ export default function Skills() {
           />
           <SkillCategory
             title="Build & Monorepo"
-            skills={["Lerna", "Rollup", "Webpack", "CJS/ESM", "Tree Shaking"]}
+            skills={["Lerna", "Rollup", "Webpack", "CJS/ESM"]}
           />
         </div>
       </div>
