@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-const categories = ["퇴사 사유", "강점", "약점", "경험"];
+const categories = ["퇴사 사유", "강점과 약점", "경험"];
 
 function slugify(text: string) {
   return text

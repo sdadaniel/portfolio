@@ -64,7 +64,14 @@ function useArticleHeadings(pathname: string) {
 export default function AISidebar() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [openProjectId, setOpenProjectId] = useState<string | null>(null);
   const headings = useArticleHeadings(pathname);
+
+  // 활성 프로젝트 변경 시 자동 펼침
+  useEffect(() => {
+    const active = aiProjects.find((p) => pathname === `/ai/${p.id}`);
+    if (active) setOpenProjectId(active.id);
+  }, [pathname]);
 
   return (
     <>
@@ -88,7 +95,7 @@ export default function AISidebar() {
       </button>
 
       <aside
-        className={`fixed lg:sticky top-16 left-0 z-30 h-[calc(100vh-4rem)] w-64 bg-white border-r border-border overflow-y-auto transition-transform lg:translate-x-0 shrink-0 ${
+        className={`fixed lg:sticky top-16 left-0 z-30 h-[calc(100vh-4rem)] w-64 bg-white border-r border-border overflow-y-auto transition-transform lg:translate-x-0 shrink-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -101,19 +108,46 @@ export default function AISidebar() {
               const isActive = pathname === `/ai/${project.id}`;
               return (
                 <div key={project.id}>
-                  <Link
-                    href={`/ai/${project.id}`}
-                    onClick={() => setMobileOpen(false)}
-                    className={`block w-full text-left px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors ${
+                  <div
+                    className={`flex items-center px-3 py-2.5 rounded-lg transition-colors ${
                       isActive
                         ? "bg-primary/10 text-primary"
                         : "text-gray-700 hover:bg-surface"
                     }`}
                   >
-                    {project.title}
-                  </Link>
+                    <Link
+                      href={`/ai/${project.id}`}
+                      onClick={() => setMobileOpen(false)}
+                      className="flex-1 text-sm font-semibold"
+                    >
+                      {project.title}
+                    </Link>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setOpenProjectId((prev) =>
+                          prev === project.id ? null : project.id
+                        );
+                      }}
+                      className="shrink-0 w-5 h-5 flex items-center justify-center opacity-40 hover:opacity-70 transition-opacity"
+                    >
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className={`transition-transform ${openProjectId === project.id ? "rotate-180" : ""}`}
+                      >
+                        <polyline points="6 9 12 15 18 9" />
+                      </svg>
+                    </button>
+                  </div>
 
-                  {isActive && headings.length > 0 && (
+                  {isActive && headings.length > 0 && openProjectId === project.id && (
                     <div className="ml-3 mt-1 mb-2 border-l-2 border-primary/20 pl-3 space-y-0.5">
                       {headings.map((h) => (
                         <button

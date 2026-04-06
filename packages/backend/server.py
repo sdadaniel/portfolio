@@ -28,7 +28,10 @@ openai_client: OpenAI | None = None
 async def lifespan(app: FastAPI):
     global collection, openai_client
     client = chromadb.PersistentClient(path=CHROMA_DIR)
-    collection = client.get_collection(COLLECTION_NAME)
+    collection = client.get_or_create_collection(
+        name=COLLECTION_NAME,
+        metadata={"hnsw:space": "cosine"},
+    )
     openai_client = OpenAI()
     print(f"Loaded collection with {collection.count()} chunks")
     yield
