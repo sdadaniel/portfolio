@@ -142,9 +142,9 @@ export default function ChatWidget() {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter" && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey && !isLoading) {
       e.preventDefault();
-      handleSend();
+      e.currentTarget.form?.requestSubmit();
     }
   };
 
