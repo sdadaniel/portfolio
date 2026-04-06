@@ -1,5 +1,6 @@
 """포트폴리오 RAG 챗봇 서버."""
 
+import json
 import os
 from contextlib import asynccontextmanager
 
@@ -7,27 +8,25 @@ import chromadb
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 from openai import OpenAI
 from pydantic import BaseModel
-from sentence_transformers import SentenceTransformer
 
 load_dotenv()
 
 CHROMA_DIR = os.getenv("CHROMA_DIR", "./chroma_db")
 COLLECTION_NAME = "portfolio_docs"
-EMBEDDING_MODEL = "intfloat/multilingual-e5-small"
+EMBEDDING_MODEL = "text-embedding-3-small"
 TOP_K = 5
 ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "*").split(",")
 
-embedder: SentenceTransformer | None = None
 collection: chromadb.Collection | None = None
 openai_client: OpenAI | None = None
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    global embedder, collection, openai_client
-    embedder = SentenceTransformer(EMBEDDING_MODEL)
+    global collection, openai_client
     client = chromadb.PersistentClient(path=CHROMA_DIR)
     collection = client.get_collection(COLLECTION_NAME)
     openai_client = OpenAI()
@@ -60,15 +59,16 @@ class ChatResponse(BaseModel):
     sources: list[str]
 
 
-@app.post("/chat", response_model=ChatResponse)
+@app.post("/chat")
 def chat(req: ChatRequest):
     if not req.message.strip():
         raise HTTPException(status_code=400, detail="메시지를 입력해주세요.")
 
     # 1. 쿼리 임베딩
-    query_embedding = embedder.encode(
-        f"query: {req.message}", normalize_embeddings=True
-    ).tolist()
+    embed_response = openai_client.embeddings.create(
+        model=EMBEDDING_MODEL, input=req.message
+    )
+    query_embedding = embed_response.data[0].embedding
 
     # 2. 벡터 검색
     results = collection.query(
@@ -81,7 +81,7 @@ def chat(req: ChatRequest):
     # 3. 컨텍스트 조립
     context = "\n---\n".join(context_chunks)
 
-    # 4. LLM 호출
+    # 4. LLM 스트리밍 호출
     messages = [{"role": "system", "content": SYSTEM_PROMPT}]
     for h in req.history[-6:]:
         messages.append({"role": h["role"], "content": h["content"]})
@@ -92,17 +92,22 @@ def chat(req: ChatRequest):
         }
     )
 
-    response = openai_client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=messages,
-        temperature=0.3,
-        max_tokens=1024,
-    )
+    def generate():
+        stream = openai_client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=messages,
+            temperature=0.3,
+            max_tokens=1024,
+            stream=True,
+        )
+        for chunk in stream:
+            delta = chunk.choices[0].delta
+            if delta.content:
+                yield f"data: {json.dumps({'type': 'content', 'text': delta.content}, ensure_ascii=False)}\n\n"
+        yield f"data: {json.dumps({'type': 'sources', 'sources': sources}, ensure_ascii=False)}\n\n"
+        yield "data: [DONE]\n\n"
 
-    return ChatResponse(
-        answer=response.choices[0].message.content,
-        sources=sources,
-    )
+    return StreamingResponse(generate(), media_type="text/event-stream")
 
 
 @app.get("/health")

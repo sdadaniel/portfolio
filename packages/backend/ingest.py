@@ -7,14 +7,18 @@ import chromadb
 import fitz  # pymupdf
 from dotenv import load_dotenv
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from sentence_transformers import SentenceTransformer
+from openai import OpenAI
 
 load_dotenv()
 
-DOCS_DIR = os.getenv("DOCS_DIR", "../docs")
+ROOT_DIR = pathlib.Path(__file__).resolve().parent.parent.parent
+DOCS_DIRS = [
+    str(ROOT_DIR / "docs"),
+    str(ROOT_DIR / "packages" / "front" / "src" / "content"),
+]
 CHROMA_DIR = os.getenv("CHROMA_DIR", "./chroma_db")
 COLLECTION_NAME = "portfolio_docs"
-EMBEDDING_MODEL = "intfloat/multilingual-e5-small"
+EMBEDDING_MODEL = "text-embedding-3-small"
 
 splitter = RecursiveCharacterTextSplitter(
     chunk_size=500,
@@ -61,8 +65,10 @@ def load_documents(docs_dir: str) -> list[dict]:
 
 
 def ingest():
-    print(f"Loading documents from {DOCS_DIR} ...")
-    documents = load_documents(DOCS_DIR)
+    documents = []
+    for docs_dir in DOCS_DIRS:
+        print(f"Loading documents from {docs_dir} ...")
+        documents.extend(load_documents(docs_dir))
     print(f"Found {len(documents)} documents")
 
     # 청킹
@@ -80,10 +86,11 @@ def ingest():
     print(f"Created {len(chunks)} chunks")
 
     # 임베딩
-    print(f"Loading embedding model: {EMBEDDING_MODEL} ...")
-    model = SentenceTransformer(EMBEDDING_MODEL)
-    texts_to_embed = [f"passage: {c['text']}" for c in chunks]
-    embeddings = model.encode(texts_to_embed, show_progress_bar=True, normalize_embeddings=True)
+    print(f"Using OpenAI embedding model: {EMBEDDING_MODEL} ...")
+    client_openai = OpenAI()
+    texts_to_embed = [c["text"] for c in chunks]
+    response = client_openai.embeddings.create(model=EMBEDDING_MODEL, input=texts_to_embed)
+    embeddings = [item.embedding for item in response.data]
 
     # ChromaDB 저장
     client = chromadb.PersistentClient(path=CHROMA_DIR)
@@ -99,7 +106,7 @@ def ingest():
 
     collection.add(
         ids=[c["id"] for c in chunks],
-        embeddings=embeddings.tolist(),
+        embeddings=embeddings,
         documents=[c["text"] for c in chunks],
         metadatas=[c["metadata"] for c in chunks],
     )
