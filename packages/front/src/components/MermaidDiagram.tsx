@@ -22,7 +22,8 @@ const mermaidConfig = {
     titleColor: "#f8fafc",
   },
   securityLevel: "loose" as const,
-  fontFamily: "inherit",
+  fontFamily: "system-ui, -apple-system, sans-serif",
+  fontSize: 13,
 };
 
 export default function MermaidDiagram({ chart }: { chart: string }) {
