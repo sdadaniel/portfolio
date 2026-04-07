@@ -67,6 +67,11 @@ export default function ChatWidget() {
     const text = input.trim();
     if (!text) return;
 
+    window.gtag?.("event", "chat_message_sent", {
+      event_category: "chat",
+      event_label: text.slice(0, 100),
+    });
+
     const userMsg: Message = {
       id: Date.now(),
       role: "user",
