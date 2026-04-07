@@ -22,20 +22,19 @@ export default function Hero() {
               Frontend Developer · 경력 약 7년
             </div>
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 text-gray-900">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-6 text-gray-900">
               곽성실
             </h1>
 
             <p className="text-gray-600 text-lg md:text-xl mb-4 leading-relaxed">
-              Next.js · React · TypeScript 기반 서비스 개발을 주도해 온
+              복잡한 서비스를 깔끔하게 풀어내고, AI로 더 나은 방법을 찾는
               프론트엔드 개발자입니다.
             </p>
 
             <p className="text-gray-400 text-sm md:text-base mb-8 leading-relaxed">
-              대규모 서비스 리뉴얼, WebView–Native 인증 통합, Monorepo 구축,
-              대시보드·포털 개발 등 복잡한 도메인과 구조적 문제를 다루는 일을 꾸준히
-              맡아 왔습니다. 디자인 시스템·빌드 시스템·CI/CD 자동화까지 프론트엔드
-              개발 전반을 개선하는 역할을 맡아 왔습니다.
+              7년간 서비스 리뉴얼부터 디자인 시스템, CI/CD 자동화까지 프론트엔드
+              전반을 다뤄 왔고, 최근에는 AI Agent 오케스트레이션으로 워크플로
+              자동화에 도전하고 있습니다.
             </p>
 
           </div>
@@ -49,7 +48,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <p className="text-center text-sm text-gray-400 mt-20">
+        <p className="text-center text-sm text-gray-700 mt-20 font-bold">
           궁금한 부분은 아래 챗봇에게 물어보세요
         </p>
       </div>

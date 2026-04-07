@@ -81,7 +81,7 @@ export default function Others() {
               </div>
             </div>
 
-            <div>
+            {/* <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-4">
                 Activities
               </h3>
@@ -96,13 +96,13 @@ export default function Others() {
                   카페24 빌더호스팅으로 회사 홈페이지 제작
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
 
           <div className="space-y-8">
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                Best Achievement
+                Achievement
               </h3>
               <div className="p-5 bg-surface rounded-xl border border-primary/20">
                 <h4 className="text-sm font-semibold text-primary mb-2">
@@ -123,7 +123,7 @@ export default function Others() {
 
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                Hardest Challenge
+                Challenge
               </h3>
               <div className="p-5 bg-surface rounded-xl border border-border">
                 <h4 className="text-sm font-semibold text-gray-900 mb-2">

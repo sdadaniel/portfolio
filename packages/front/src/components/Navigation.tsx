@@ -41,7 +41,7 @@ export default function Navigation() {
               <Link
                 href={item.href}
                 className={`text-sm font-medium transition-colors ${
-                  pathname === item.href
+                  (item.href === "/" ? pathname === "/" : pathname.startsWith(item.href))
                     ? "text-primary"
                     : "text-gray-500 hover:text-primary"
                 }`}
@@ -80,7 +80,7 @@ export default function Navigation() {
                 <Link
                   href={item.href}
                   className={`text-sm font-medium transition-colors ${
-                    pathname === item.href
+                    (item.href === "/" ? pathname === "/" : pathname.startsWith(item.href))
                       ? "text-primary"
                       : "text-gray-500 hover:text-primary"
                   }`}
