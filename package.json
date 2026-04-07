@@ -14,7 +14,7 @@
     "lint:front": "yarn workspace portfolio lint",
     "ingest": "packages/backend/venv/bin/python packages/backend/ingest.py",
     "ingest:reset": "packages/backend/venv/bin/python packages/backend/ingest.py --reset",
-    "deploy:back": "PATH=\"$HOME/.fly/bin:$PATH\" flyctl deploy --config packages/backend/fly.toml --dockerfile packages/backend/Dockerfile"
+    "deploy:back": "cd packages/backend && PATH=\"$HOME/.fly/bin:$PATH\" flyctl deploy"
   },
   "repository": {
     "type": "git",

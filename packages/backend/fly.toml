@@ -7,6 +7,7 @@ app = 'pf-chatbot'
 primary_region = 'nrt'
 
 [build]
+  dockerfile = "Dockerfile"
 
 [env]
   CHROMA_DIR = '/data/chroma_db'
