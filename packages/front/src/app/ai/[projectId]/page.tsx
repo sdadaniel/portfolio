@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { readFile } from "fs/promises";
 import path from "path";
@@ -16,6 +17,20 @@ const mdFileMap: Record<string, string> = {
 
 export function generateStaticParams() {
   return aiProjects.map((p) => ({ projectId: p.id }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ projectId: string }>;
+}): Promise<Metadata> {
+  const { projectId } = await params;
+  const project = aiProjects.find((p) => p.id === projectId);
+  if (!project) return {};
+  return {
+    title: `${project.title} | AI 프로젝트`,
+    description: project.summary,
+  };
 }
 
 export default async function Page({

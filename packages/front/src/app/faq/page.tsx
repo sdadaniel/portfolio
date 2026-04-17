@@ -1,9 +1,14 @@
+import type { Metadata } from "next";
 import { readFile } from "fs/promises";
 import path from "path";
 import Navigation from "@/components/Navigation";
 import AIMarkdown from "@/components/AIMarkdown";
 import Footer from "@/components/Footer";
 import FAQSidebar from "@/components/FAQSidebar";
+
+export const metadata: Metadata = {
+  title: "FAQ",
+};
 
 export default async function FAQPage() {
   const mdPath = path.join(process.cwd(), "src", "content", "faq", "main.md");

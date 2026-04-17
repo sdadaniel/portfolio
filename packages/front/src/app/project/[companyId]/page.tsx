@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { readFile } from "fs/promises";
 import path from "path";
@@ -14,6 +15,20 @@ const mdFileMap: Record<string, string> = {
 
 export function generateStaticParams() {
   return companies.map((c) => ({ companyId: c.id }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ companyId: string }>;
+}): Promise<Metadata> {
+  const { companyId } = await params;
+  const company = companies.find((c) => c.id === companyId);
+  if (!company) return {};
+  return {
+    title: `${company.name} | 경력 프로젝트`,
+    description: company.summary,
+  };
 }
 
 export default async function Page({

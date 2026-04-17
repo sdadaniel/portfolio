@@ -16,7 +16,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "곽성실 | 프론트엔드 개발자 포트폴리오",
+  title: {
+    default: "곽성실 | 프론트엔드 개발자 포트폴리오",
+    template: "%s | 곽성실 포트폴리오",
+  },
   description:
     "Next.js · React · TypeScript 기반 서비스 개발을 주도해 온 프론트엔드 개발자 곽성실의 포트폴리오",
 };
