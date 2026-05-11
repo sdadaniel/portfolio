@@ -18,15 +18,15 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/sdadaniel/pf.git"
+        "url": "git+https://github.com/sdadaniel/portfolio.git"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/sdadaniel/pf/issues"
+        "url": "https://github.com/sdadaniel/portfolio/issues"
     },
-    "homepage": "https://github.com/sdadaniel/pf#readme",
+    "homepage": "https://github.com/sdadaniel/portfolio#readme",
     "devDependencies": {
         "concurrently": "^9.2.1"
     }
