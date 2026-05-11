@@ -4,3 +4,4 @@ __pycache__/
 packages/backend/chroma_db/
 node_modules/
 .env
+.vercel

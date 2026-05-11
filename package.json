@@ -1,33 +1,33 @@
 {
-  "name": "pf",
-  "version": "1.0.0",
-  "private": true,
-  "workspaces": [
-    "packages/front"
-  ],
-  "scripts": {
-    "dev:front": "yarn workspace portfolio dev",
-    "dev:back": "packages/backend/venv/bin/uvicorn server:app --reload --port 8000 --app-dir packages/backend",
-    "dev": "concurrently -k \"yarn run dev:front\" \"yarn run dev:back\"",
-    "build:front": "yarn workspace portfolio build",
-    "start:front": "yarn workspace portfolio start",
-    "lint:front": "yarn workspace portfolio lint",
-    "ingest": "packages/backend/venv/bin/python packages/backend/ingest.py",
-    "ingest:reset": "packages/backend/venv/bin/python packages/backend/ingest.py --reset",
-    "deploy:back": "cd packages/backend && PATH=\"$HOME/.fly/bin:$PATH\" flyctl deploy"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/sdadaniel/pf.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/sdadaniel/pf/issues"
-  },
-  "homepage": "https://github.com/sdadaniel/pf#readme",
-  "devDependencies": {
-    "concurrently": "^9.2.1"
-  }
+    "name": "portfolio",
+    "version": "1.0.0",
+    "private": true,
+    "workspaces": [
+        "packages/front"
+    ],
+    "scripts": {
+        "dev:front": "yarn workspace portfolio dev",
+        "dev:back": "packages/backend/venv/bin/uvicorn server:app --reload --port 8000 --app-dir packages/backend",
+        "dev": "concurrently -k \"yarn run dev:front\" \"yarn run dev:back\"",
+        "build:front": "yarn workspace portfolio build",
+        "start:front": "yarn workspace portfolio start",
+        "lint:front": "yarn workspace portfolio lint",
+        "ingest": "packages/backend/venv/bin/python packages/backend/ingest.py",
+        "ingest:reset": "packages/backend/venv/bin/python packages/backend/ingest.py --reset",
+        "deploy:back": "cd packages/backend && PATH=\"$HOME/.fly/bin:$PATH\" flyctl deploy"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/sdadaniel/pf.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/sdadaniel/pf/issues"
+    },
+    "homepage": "https://github.com/sdadaniel/pf#readme",
+    "devDependencies": {
+        "concurrently": "^9.2.1"
+    }
 }
